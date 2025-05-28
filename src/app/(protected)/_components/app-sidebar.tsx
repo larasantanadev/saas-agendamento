@@ -121,7 +121,7 @@ export function AppSidebar() {
               <DropdownMenuContent>
                 <DropdownMenuItem onClick={handleSignOut}>
                   <LogOut />
-                  Sair
+                  Sair da conta
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
