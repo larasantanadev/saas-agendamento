@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
-//import { toast } from "sonner";
+import { toast } from "sonner";
 import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
@@ -22,6 +22,7 @@ import { Form, FormField } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { authClient } from "@/lib/auth-client";
 
+// Define o esquema de validação para o formulário de login
 const loginSchema = z.object({
   email: z
     .string()
@@ -34,6 +35,7 @@ const loginSchema = z.object({
     .min(8, { message: "A senha deve ter pelo menos 8 caracteres" }),
 });
 
+// Componente de login de usuário
 const LoginForm = () => {
   const router = useRouter();
   const form = useForm<z.infer<typeof loginSchema>>({
@@ -44,6 +46,7 @@ const LoginForm = () => {
     },
   });
 
+  // Função de envio do formulário de login
   const handleSubmit = async (values: z.infer<typeof loginSchema>) => {
     await authClient.signIn.email(
       {
@@ -55,12 +58,13 @@ const LoginForm = () => {
           router.push("/dashboard");
         },
         onError: () => {
-          //  toast.error("E-mail ou senha inválidos.");
+          toast.error("E-mail ou senha inválidos, tente novamente.");
         },
       },
     );
   };
 
+  // Função de login com Google
   const handleGoogleLogin = async () => {
     await authClient.signIn.social({
       provider: "google",
@@ -69,6 +73,7 @@ const LoginForm = () => {
     });
   };
 
+  // Renderização do componente de login de usuário
   return (
     <Card>
       <Form {...form}>
@@ -156,4 +161,5 @@ const LoginForm = () => {
   );
 };
 
+// Exporta o componente de login de usuário
 export default LoginForm;
