@@ -46,7 +46,7 @@ const LoginForm = () => {
     },
   });
 
-  // Função de envio do formulário de login
+  // Função de envio do formulário de login (verifica se o e-mail e a senha são válidos)
   const handleSubmit = async (values: z.infer<typeof loginSchema>) => {
     await authClient.signIn.email(
       {
@@ -64,7 +64,7 @@ const LoginForm = () => {
     );
   };
 
-  // Função de login com Google
+  // Função de login com Google (redireciona para a página de login com o google)
   const handleGoogleLogin = async () => {
     await authClient.signIn.social({
       provider: "google",
@@ -127,6 +127,7 @@ const LoginForm = () => {
                   "Entrar"
                 )}
               </Button>
+              {/* Botão de login com Google */}
               <Button
                 variant="outline"
                 className="w-full"

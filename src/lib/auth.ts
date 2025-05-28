@@ -4,16 +4,19 @@ import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { db } from "@/db";
 import * as schema from "@/db/schema";
 
+// Configuração do auth
 export const auth = betterAuth({
   database: drizzleAdapter(db, {
     provider: "pg",
     usePlural: true,
     schema,
   }),
+
+  // Define os provedores de autenticação social
   socialProviders: {
     google: {
-      clientId: process.env.GOOGLE_CLIENT_ID as string,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+      clientId: process.env.GOOGLE_CLIENT_ID as string, // id do google para autenticação com o google na hora de criar usuario na aplicação
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string, // secret do google para autenticação com o google
     },
   },
 
