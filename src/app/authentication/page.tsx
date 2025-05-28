@@ -12,6 +12,7 @@ const AuthenticationPage = async () => {
     headers: await headers(),
   });
   if (session?.user) {
+    //se o usuário estiver autenticado, redireciona para a página de dashboard
     redirect("/dashboard");
   }
   return (
