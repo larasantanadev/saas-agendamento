@@ -60,7 +60,7 @@ const items = [
 export function AppSidebar() {
   const router = useRouter(); //pega o router
   const session = authClient.useSession(); //pega a sessão do usuário
-  const pathname = usePathname(); //pega o pathname
+  const pathname = usePathname(); //pega o pathname - a rota atual
 
   //faz o logout do usuário e redireciona para a página de login
   const handleSignOut = async () => {

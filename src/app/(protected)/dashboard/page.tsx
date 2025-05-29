@@ -2,8 +2,6 @@ import { eq } from "drizzle-orm";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
-import { db } from "@/db";
-import { usersToClinicsTable } from "@/db/schema";
 import { auth } from "@/lib/auth";
 
 import SignOutButton from "./_components/sign-out-button";
@@ -13,18 +11,17 @@ const DashboardPage = async () => {
     //pega a sessão do usuário
     headers: await headers(), //pega os headers da requisição
   });
+
   if (!session?.user) {
     //se o usuário não estiver autenticado, redireciona para a página de login
     redirect("/authentication");
   }
-  const clinics = await db.query.usersToClinicsTable.findMany({
-    //pega os clinicas do usuário
-    where: eq(usersToClinicsTable.userId, session.user.id), //pega os clinicas do usuário
-  });
-  if (clinics.length === 0) {
+
+  if (!session.user.clinic) {
     //se o usuário não tiver clinicas, redireciona para a página de cadastro de clínica
     redirect("/clinic-form");
   }
+
   return (
     <div>
       <h1>Dashboard</h1>
