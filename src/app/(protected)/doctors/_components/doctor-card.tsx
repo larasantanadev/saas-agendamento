@@ -101,7 +101,7 @@ const DoctorCard = ({ doctor }: DoctorCardProps) => {
           onOpenChange={setIsUpsertDoctorDialogOpen}
         >
           <DialogTrigger asChild>
-            <Button className="w-full">Ver detalhes</Button>
+            <Button className="w-full">Editar Profissional</Button>
           </DialogTrigger>
           <UpsertDoctorForm
             doctor={{
@@ -116,17 +116,17 @@ const DoctorCard = ({ doctor }: DoctorCardProps) => {
           <AlertDialogTrigger asChild>
             <Button variant="outline" className="w-full">
               <TrashIcon />
-              Deletar médico
+              Deletar profissional
             </Button>
           </AlertDialogTrigger>
           <AlertDialogContent>
             <AlertDialogHeader>
               <AlertDialogTitle>
-                Tem certeza que deseja deletar esse médico?
+                Tem certeza que deseja deletar?
               </AlertDialogTitle>
               <AlertDialogDescription>
-                Essa ação não pode ser revertida. Isso irá deletar o médico e
-                todas as consultas agendadas.
+                Essa ação não pode ser revertida. Isso irá deletar o
+                profissional e todas as consultas agendadas.
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>

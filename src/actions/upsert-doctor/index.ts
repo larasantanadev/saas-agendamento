@@ -30,8 +30,8 @@ export const upsertDoctor = actionClient
       .utc();
 
     // converte o horário de término para o horário UTC
-    const availableToTimeUTC = dayjs()
-      .set("hour", parseInt(availableToTime.split(":")[0]))
+    const availableToTimeUTC = dayjs() // dayjs para converter a string em um objeto de data
+      .set("hour", parseInt(availableToTime.split(":")[0])) // parseint para converter a string em um número
       .set("minute", parseInt(availableToTime.split(":")[1]))
       .set("second", parseInt(availableToTime.split(":")[2]))
       .utc();
