@@ -39,19 +39,21 @@ import { formatCurrencyInCents } from "@/helpers/currency";
 import { getAvailability } from "../_helpers/availability";
 import UpsertDoctorForm from "./upsert-doctor-form";
 
+// interface para o doctor card
 interface DoctorCardProps {
   doctor: typeof doctorsTable.$inferSelect;
 }
 
+// componente para o doctor card
 const DoctorCard = ({ doctor }: DoctorCardProps) => {
   const [isUpsertDoctorDialogOpen, setIsUpsertDoctorDialogOpen] =
     useState(false);
   const deleteDoctorAction = useAction(deleteDoctor, {
     onSuccess: () => {
-      toast.success("Médico deletado com sucesso.");
+      toast.success("Profissional deletado com sucesso.");
     },
     onError: () => {
-      toast.error("Erro ao deletar médico.");
+      toast.error("Erro ao deletar profissional.");
     },
   });
   const handleDeleteDoctorClick = () => {
@@ -59,6 +61,7 @@ const DoctorCard = ({ doctor }: DoctorCardProps) => {
     deleteDoctorAction.execute({ id: doctor.id });
   };
 
+  // inicializa o doctor
   const doctorInitials = doctor.name
     .split(" ")
     .map((name) => name[0])
