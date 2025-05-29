@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 
-import { createClinic } from "@/actions/create-clinic"; // função de criação de clínica executada no lado do servidor
+import { createClinic } from "@/actions/clinic"; // função de criação de clínica executada no lado do servidor
 import { Button } from "@/components/ui/button";
 import { DialogFooter } from "@/components/ui/dialog";
 import {

@@ -99,6 +99,8 @@ const UpsertDoctorForm = ({ doctor, onSuccess }: UpsertDoctorFormProps) => {
       availableToTime: doctor?.availableToTime ?? "",
     },
   });
+
+  // action para criar ou atualizar um profissional
   const upsertDoctorAction = useAction(upsertDoctor, {
     onSuccess: () => {
       toast.success("Profissional adicionado com sucesso.");
