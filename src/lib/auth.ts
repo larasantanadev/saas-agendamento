@@ -7,6 +7,7 @@ import { eq } from "drizzle-orm";
 import { db } from "@/db";
 import * as schema from "@/db/schema";
 import { usersToClinicsTable } from "@/db/schema";
+import { redirect } from "next/navigation";
 
 export const auth = betterAuth({
   database: drizzleAdapter(db, {
@@ -69,3 +70,21 @@ export const auth = betterAuth({
     enabled: true,
   },
 });
+
+export async function getClinicId() {
+  const session = await auth();
+
+  if (!session?.user?.id) {
+    redirect("/sign-in");
+  }
+
+  const userToClinic = await db.query.usersToClinicsTable.findFirst({
+    where: eq(usersToClinicsTable.userId, session.user.id),
+  });
+
+  if (!userToClinic?.clinicId) {
+    redirect("/");
+  }
+
+  return userToClinic.clinicId;
+}
