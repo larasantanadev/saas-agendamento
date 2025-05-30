@@ -45,7 +45,7 @@ const items = [
     icon: CalendarDays,
   },
   {
-    title: "Médicos",
+    title: "Profissionais",
     url: "/doctors",
     icon: Stethoscope,
   },
