@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 
-import { createClinic } from "@/actions/clinic"; // função de criação de clínica executada no lado do servidor
+import { createClinic } from "@/actions/create-clinic";
 import { Button } from "@/components/ui/button";
 import { DialogFooter } from "@/components/ui/dialog";
 import {
@@ -25,7 +25,6 @@ const clinicFormSchema = z.object({
 });
 
 const ClinicForm = () => {
-  //componente de form de criação de clínica
   const form = useForm<z.infer<typeof clinicFormSchema>>({
     resolver: zodResolver(clinicFormSchema),
     defaultValues: {
@@ -34,15 +33,14 @@ const ClinicForm = () => {
   });
 
   const onSubmit = async (data: z.infer<typeof clinicFormSchema>) => {
-    //função de submit do form
     try {
-      await createClinic(data.name); // chama a action de criação de clínica
+      await createClinic(data.name);
     } catch (error) {
       if (isRedirectError(error)) {
         return;
       }
       console.error(error);
-      toast.error("Erro ao criar clínica. Tente novamente.");
+      toast.error("Erro ao criar clínica.");
     }
   };
 
@@ -55,6 +53,7 @@ const ClinicForm = () => {
             name="name"
             render={({ field }) => (
               <FormItem>
+                <FormLabel>Nome</FormLabel>
                 <FormControl>
                   <Input {...field} />
                 </FormControl>
@@ -68,7 +67,7 @@ const ClinicForm = () => {
               {form.formState.isSubmitting && (
                 <Loader2 className="h-4 w-4 animate-spin" />
               )}
-              Criar
+              Criar clínica
             </Button>
           </DialogFooter>
         </form>

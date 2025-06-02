@@ -26,8 +26,9 @@ import TopSpecialties from "./_components/top-specialties";
 
 interface DashboardPageProps {
   searchParams: Promise<{
-    from: string;
-    to: string;
+    // promise é uma função assíncrona que retorna um objeto
+    from: string; // from é uma string que representa a data de início do período
+    to: string; // to é uma string que representa a data de fim do período
   }>;
 }
 
@@ -41,9 +42,13 @@ const DashboardPage = async ({ searchParams }: DashboardPageProps) => {
   if (!session.user.clinic) {
     redirect("/clinic-form");
   }
-  if (!session.user.plan) {
-    redirect("/new-subscription");
-  }
+  // if (!session.user.plan) {
+  // redirect("/new-subscription");
+  // }
+
+  // essa função é para pegar o estado do from e to
+  // e redirecionar para a página de dashboard
+  // se não houver from ou to, redireciona para a página de dashboard com as datas atuais
   const { from, to } = await searchParams;
   if (!from || !to) {
     redirect(
@@ -121,7 +126,17 @@ const DashboardPage = async ({ searchParams }: DashboardPageProps) => {
 
 export default DashboardPage;
 
-//URL states é o estado que fica na URL,
-// e é usado para guardar o estado da página
-// exemplo: /dashboard?from=2021-01-01&to=2021-01-31
-// nuqs é uma biblioteca que facilita o uso de URL states
+// esse componente é para exibir o dashboard
+// ele recebe um objeto com os valores de faturamento, agendamentos, pacientes e médicos
+// ele gera um dashboard com os valores de faturamento, agendamentos, pacientes e médicos
+// ele usa o componente StatsCards para gerar os cards de estatísticas
+// ele usa o componente AppointmentsChart para gerar o gráfico de agendamentos e faturamento
+// ele usa o componente TopDoctors para gerar o gráfico de médicos mais agendados
+// ele usa o componente TopSpecialties para gerar o gráfico de especialidades mais agendadas
+// ele usa o componente DataTable para gerar a tabela de agendamentos de hoje
+// ele usa o componente PageContainer para gerar o container da página
+// ele usa o componente PageHeader para gerar o cabeçalho da página
+// ele usa o componente PageContent para gerar o conteúdo da página
+// ele usa o componente PageActions para gerar os botões da página
+// ele usa o componente DatePicker para gerar o calendário de datas
+//

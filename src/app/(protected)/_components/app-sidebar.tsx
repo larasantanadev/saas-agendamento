@@ -1,7 +1,9 @@
-"use client"; // se o componnente tem interação com o usuário precisa ser um client component
+"use client";
 
 import {
   CalendarDays,
+  Diamond,
+  Gem,
   LayoutDashboard,
   LogOut,
   Stethoscope,
@@ -33,7 +35,6 @@ import {
 import { authClient } from "@/lib/auth-client";
 
 const items = [
-  //itens do sidebar - menu principal
   {
     title: "Dashboard",
     url: "/dashboard",
@@ -45,7 +46,7 @@ const items = [
     icon: CalendarDays,
   },
   {
-    title: "Profissionais",
+    title: "Médicos",
     url: "/doctors",
     icon: Stethoscope,
   },
@@ -56,19 +57,16 @@ const items = [
   },
 ];
 
-//componente do sidebar
 export function AppSidebar() {
-  const router = useRouter(); //pega o router
-  const session = authClient.useSession(); //pega a sessão do usuário
-  const pathname = usePathname(); //pega o pathname - a rota atual
+  const router = useRouter();
+  const session = authClient.useSession();
+  const pathname = usePathname();
 
-  //faz o logout do usuário e redireciona para a página de login
   const handleSignOut = async () => {
     await authClient.signOut({
-      //faz o logout do usuário
       fetchOptions: {
         onSuccess: () => {
-          router.push("/authentication"); //redireciona para a página de login
+          router.push("/authentication");
         },
       },
     });
@@ -76,7 +74,7 @@ export function AppSidebar() {
   return (
     <Sidebar>
       <SidebarHeader className="border-b p-4">
-        <Image src="/logo.svg" alt="Agende+" width={136} height={28} />
+        <Image src="/logo.svg" alt="Doutor Agenda" width={136} height={28} />
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
@@ -96,6 +94,24 @@ export function AppSidebar() {
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
+        <SidebarGroup>
+          <SidebarGroupLabel>Outros</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  asChild
+                  isActive={pathname === "/subscription"}
+                >
+                  <Link href="/subscription">
+                    <Gem />
+                    <span>Assinatura</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
       </SidebarContent>
       <SidebarFooter>
         <SidebarMenu>
@@ -106,8 +122,6 @@ export function AppSidebar() {
                   <Avatar>
                     <AvatarFallback>F</AvatarFallback>
                   </Avatar>
-
-                  {/* pega o nome da clínica do usuário */}
                   <div>
                     <p className="text-sm">
                       {session.data?.user?.clinic?.name}
@@ -121,7 +135,7 @@ export function AppSidebar() {
               <DropdownMenuContent>
                 <DropdownMenuItem onClick={handleSignOut}>
                   <LogOut />
-                  Sair da conta
+                  Sair
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>

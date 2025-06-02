@@ -69,7 +69,7 @@ export function DataTable<TData, TValue>({
           ) : (
             <TableRow>
               <TableCell colSpan={columns.length} className="h-24 text-center">
-                No results.
+                Nenhum resultado encontrado.
               </TableCell>
             </TableRow>
           )}
@@ -78,3 +78,11 @@ export function DataTable<TData, TValue>({
     </div>
   );
 }
+
+// esse componente é para exibir uma tabela de dados
+// ele recebe um array de colunas e um array de dados
+// ele gera uma tabela com as colunas e os dados
+// ele usa o componente Table para gerar a tabela
+// ele usa o componente TableHeader para gerar o cabeçalho da tabela
+// ele usa o componente TableBody para gerar o corpo da tabela
+// ele usa o componente TableRow para gerar as linhas da tabela

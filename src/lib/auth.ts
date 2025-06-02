@@ -1,13 +1,11 @@
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
-// customSession é um plugin que permite adicionar informações personalizadas à sessão do usuário
 import { customSession } from "better-auth/plugins";
 import { eq } from "drizzle-orm";
 
 import { db } from "@/db";
 import * as schema from "@/db/schema";
-import { usersToClinicsTable } from "@/db/schema";
-import { redirect } from "next/navigation";
+import { usersTable, usersToClinicsTable } from "@/db/schema";
 
 export const auth = betterAuth({
   database: drizzleAdapter(db, {
@@ -15,36 +13,37 @@ export const auth = betterAuth({
     usePlural: true,
     schema,
   }),
-
-  //configuração dos provedores de autenticação social
   socialProviders: {
     google: {
       clientId: process.env.GOOGLE_CLIENT_ID as string,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
     },
   },
-
-  //configuração do plugin customSession que adiciona informações personalizadas à sessão do usuário
   plugins: [
     customSession(async ({ user, session }) => {
-      //pega as clínicas do usuário
-      const clinics = await db.query.usersToClinicsTable.findMany({
-        where: eq(usersToClinicsTable.userId, user.id),
-        with: {
-          clinic: true,
-        },
-      });
-
+      // TODO: colocar cache
+      const [userData, clinics] = await Promise.all([
+        db.query.usersTable.findFirst({
+          where: eq(usersTable.id, user.id),
+        }),
+        db.query.usersToClinicsTable.findMany({
+          where: eq(usersToClinicsTable.userId, user.id),
+          with: {
+            clinic: true,
+            user: true,
+          },
+        }),
+      ]);
       // TODO: Ao adaptar para o usuário ter múltiplas clínicas, deve-se mudar esse código
-      //pega a primeira clínica do usuário
       const clinic = clinics?.[0];
       return {
         user: {
           ...user,
+          plan: userData?.plan,
           clinic: clinic?.clinicId
             ? {
-                id: clinic?.clinicId, //pega o id da clínica do usuário
-                name: clinic?.clinic?.name, //pega o nome da clínica do usuário
+                id: clinic?.clinicId,
+                name: clinic?.clinic?.name,
               }
             : undefined,
         },
@@ -52,10 +51,25 @@ export const auth = betterAuth({
       };
     }),
   ],
-
-  //configuração dos modelos de usuário, sessão, conta e verificação para o banco de dados
   user: {
     modelName: "usersTable",
+    additionalFields: {
+      stripeCustomerId: {
+        type: "string",
+        fieldName: "stripeCustomerId",
+        required: false,
+      },
+      stripeSubscriptionId: {
+        type: "string",
+        fieldName: "stripeSubscriptionId",
+        required: false,
+      },
+      plan: {
+        type: "string",
+        fieldName: "plan",
+        required: false,
+      },
+    },
   },
   session: {
     modelName: "sessionsTable",
@@ -71,20 +85,9 @@ export const auth = betterAuth({
   },
 });
 
-export async function getClinicId() {
-  const session = await auth();
-
-  if (!session?.user?.id) {
-    redirect("/sign-in");
-  }
-
-  const userToClinic = await db.query.usersToClinicsTable.findFirst({
-    where: eq(usersToClinicsTable.userId, session.user.id),
-  });
-
-  if (!userToClinic?.clinicId) {
-    redirect("/");
-  }
-
-  return userToClinic.clinicId;
-}
+// esse auth é o auth do better-auth
+// ele é responsável por autenticar o usuário
+// ele é responsável por criar o usuário
+// ele é responsável por atualizar o usuário
+// ele é responsável por deletar o usuário
+// ele é responsável por criar a sessão

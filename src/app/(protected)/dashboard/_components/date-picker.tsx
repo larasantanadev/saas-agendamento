@@ -99,3 +99,23 @@ export function DatePicker({
     </div>
   );
 }
+
+// esse componente é para selecionar o período de datas
+// ele recebe um objeto com as datas de início e fim
+// ele usa o componente Popover para exibir o calendário
+// ele usa o componente Calendar para exibir o calendário
+// ele usa o componente CalendarIcon para exibir o ícone do calendário
+// ele usa o componente Button para exibir o botão do calendário
+// ele usa o componente PopoverTrigger para exibir o botão do calendário
+// ele usa o componente PopoverContent para exibir o calendário
+// ele usa o componente Calendar para exibir o calendário
+// ele usa o componente CalendarIcon para exibir o ícone do calendário
+// ele usa o componente Button para exibir o botão do calendário
+
+// shallow é para atualizar a URL sem recarregar a página
+
+// useQueryState é uma função que retorna um array com o estado do from e to
+// parseAsIsoDate é uma função que retorna a data em formato ISO
+// addMonths é uma função que retorna a data mais 1 mês
+// format é uma função que retorna a data formatada
+// cn é uma função que retorna a classe CSS
